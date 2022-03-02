@@ -89,7 +89,7 @@ diocesis = ['Barcelona', 'Cuenca', 'Madrid', 'Valencia']
 
 col1, col2, col3 = st.columns(3)
 with col1:
-    st.title('eLitur')  # puede que en PC quede mejor otra distribución
+    st.image('logo.png')  # puede que en PC quede mejor otra distribución
 with col2:
     option = st.selectbox('Diócesis', sorted(diocesis), index=1)  # index depende de la ciudad
 with col3:
@@ -114,5 +114,5 @@ for fiesta, dic in data[cod]['fiestas'].items():
         st.subheader(dic['nombre'])
         st.write(f"{dic['tipo']}")
         st.write(f"{data[cod]['tiempo']}. Color {color.upper()}.")
-        st.image(f"{color}.png", output_format="png")
+        st.image(f"{color}.png", caption="eLitur", output_format="png")
 # FIN
