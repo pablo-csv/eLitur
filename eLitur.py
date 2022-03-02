@@ -48,16 +48,22 @@ def get_data(url):  # webscrapping
                     tipo = 'Conmemoración facultativa'
             else:
                 tipo = 'Feria'
-            fiesta_color = row.find('p', {'class':'indent'})
-            fiesta = fiesta_color.text.strip()
-            color = fiesta_color.find_all('span')[0].attrs['class'][0]
-            if color == 'feastg': color = 'limegreen'      # verde
-            elif color == 'feastw': color = 'white'        # blanco
-            elif color == 'feastv': color = 'darkviolet'   # morado
-            elif color == 'feastr': color = 'red'          # rojo
-            elif color == 'feastp': color = 'hotpink'      # rosa
-            elif color == 'feastu': color = 'deepskyblue'  # azul
-            # corrección:
+            fiesta_colores = row.find('p', {'class':'indent'})
+            fiesta = fiesta_colores.text.strip()
+            spans = fiesta_colores.find_all('span')
+            colores = []  # lista con todos los colores posibles para una fiesta (no para un día)
+            for span in spans:
+                if span.attrs['class'][0][-1] in ['g', 'w', 'v', 'r', 'p', 'u', 'b']:
+                    colores.append(span.attrs['class'][0])
+            for i, color in enumerate(colores):
+                if color == 'feastg': colores[i] = 'limegreen'      # verde
+                elif color == 'feastw': colores[i] = 'white'
+                elif color == 'feastv': colores[i] = 'darkviolet'   # morado
+                elif color == 'feastr': colores[i] = 'red'
+                elif color == 'feastp': colores[i] = 'hotpink'      # rosa
+                elif color == 'feastu': colores[i] = 'deepskyblue'  # azul
+                elif color == 'feastb': colores[i] = 'black'
+            # corrección (sólo en castellano):
             if tiempo == 'Triduo Pascual' or fiesta == 'Domingo de Pascua de la Resurrección del Señor':
                 tipo = 'Solemnidad'
             # se añade al diccionario
@@ -67,18 +73,19 @@ def get_data(url):  # webscrapping
                              'mes':mes,
                              'año':ano,
                              'tiempo':tiempo,
-                             'fiestas':{fiesta:{'nombre':fiesta, 'tipo':tipo, 'color':color}}}
+                             'fiestas':{fiesta:{'nombre':fiesta, 'tipo':tipo, 'colores':colores}}}
             else:
-                data[cod]['fiestas'][fiesta] = {'nombre':fiesta, 'tipo':tipo, 'color':color}
+                data[cod]['fiestas'][fiesta] = {'nombre':fiesta, 'tipo':tipo, 'colores':colores}
     return data
 
-def normalcolor(original):  # pasa del color exacto al general
+def normalcolor(original):  # pasa del color exacto al general (en castellano)
     if original == 'limegreen': nuevo = 'verde'
     elif original == 'white': nuevo = 'blanco'
     elif original == 'darkviolet': nuevo = 'morado'
     elif original == 'red': nuevo = 'rojo'
     elif original == 'hotpink': nuevo = 'rosa'
     elif original == 'deepskyblue': nuevo = 'azul'
+    elif original == 'black': nuevo = 'negro'
     return nuevo
 
 
@@ -106,13 +113,13 @@ diocesis_url = {'Barcelona':'http://www.gcatholic.org/calendar/2022/ES-barc0-es.
 
 data = get_data(diocesis_url[option])
 cod = mes_hoy + dia_hoy
-#st.write(data[mes_hoy+dia_hoy]['fiestas'])
 
 for fiesta, dic in data[cod]['fiestas'].items():
-    color = normalcolor(dic['color'])
+    colores = dic['colores']
     with st.container():
         st.subheader(dic['nombre'])
-        st.write(f"{dic['tipo']}")
-        st.write(f"{data[cod]['tiempo']}. Color {color.upper()}.")
-        st.image(f"{color}.png", caption="eLitur", output_format="png")
+        st.write(f"{dic['tipo']}. {data[cod]['tiempo']}.")
+        for color in colores:
+            color = normalcolor(color)
+            st.image(f"{color}.png", caption=color.upper(), output_format="png")
 # FIN
