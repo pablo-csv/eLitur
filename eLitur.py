@@ -118,6 +118,7 @@ for fiesta, dic in data[cod]['fiestas'].items():
     colores = dic['colores']
     with st.container():
         st.subheader(dic['nombre'])
+        st.write(f"{data[cod]['dia_sem']}, {data[cod]['dia_num']} de {data[cod]['mes'].lower()} de {data[cod]['año']}")
         st.write(f"{dic['tipo']}. {data[cod]['tiempo']}.")
         for color in colores:
             color = normalcolor(color)
