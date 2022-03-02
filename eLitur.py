@@ -11,6 +11,7 @@ import streamlit as st
 from pprint import pprint
 from datetime import date
 
+#@st.cache
 def get_data(url):  # webscrapping
     data = {}
     result = requests.get(url)
@@ -68,6 +69,7 @@ def get_data(url):  # webscrapping
                 data[cod]['fiestas'][fiesta] = {'tipo':tipo, 'color':color}
     return data
 
+# no sirve en web:
 def change2green():
     st.markdown(
         """
@@ -80,71 +82,11 @@ def change2green():
         unsafe_allow_html=True
     )
 
-def change2white():
-    st.markdown(
-        """
-        <style>
-        .reportview-container {
-            background: url('https://psanjuancrisostomo.arquibogota.org.co/sites/default/files/noticias/2021-04/bjbqajbjktmme_br7i_umowkv__0mnvyu3stz1vnt66jyouz6f5sxzpovkxwc9lnlxy2x3xp2xre65zcpxixpznm3ks.jpg')
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-
-def change2violet():
-    st.markdown(
-        """
-        <style>
-        .reportview-container {
-            background: url('')
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-
-def change2red():
-    st.markdown(
-        """
-        <style>
-        .reportview-container {
-            background: url('')
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-
-def change2pink():
-    st.markdown(
-        """
-        <style>
-        .reportview-container {
-            background: url('')
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-
-def change2blue():
-    st.markdown(
-        """
-        <style>
-        .reportview-container {
-            background: url('')
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-
 
 # CONFIGURACIÓN DE LA WEB
 st.set_page_config(layout="wide", page_title="eLitur")
 
-st.markdown(   # imagen de fondo
+st.markdown(   # imagen de fondo (no funciona en la web)
     """
     <style>
     .reportview-container {
@@ -155,47 +97,28 @@ st.markdown(   # imagen de fondo
     unsafe_allow_html=True
 )
 
-#st.title('eLitur')
+st.title('eLitur')
 
-fecha = str(date.today()).split('-')
-ano_hoy, mes_hoy, dia_hoy = fecha[0], fecha[1], fecha[2]
+diocesis = ['Barcelona', 'Cuenca', 'Madrid', 'Valencia']
 
-diocesis = {'Cuenca':f'http://www.gcatholic.org/calendar/{ano_hoy}/ES-cuen1-es.htm',
-            'Madrid':f'http://www.gcatholic.org/calendar/{ano_hoy}/ES-madr1-es.htm',
-            'Valencia':f'http://www.gcatholic.org/calendar/{ano_hoy}/ES-vale0-es.htm'}
-
-col1, col2 = st.columns(2)
+col1, col2, col3 = st.columns(3)
 with col1:
-    st.title('Diócesis')
+    st.header('Diócesis')
 with col2:
-    option = st.selectbox('', sorted(diocesis))
+    option = st.selectbox('', sorted(diocesis), index=1)
+with col3:
+    fecha = st.date_input('', value=date.today())
 
-if st.button('Ver calendario'):
-    data = get_data(diocesis[option])
-    st.write(data[mes_hoy+dia_hoy]['fiestas'])
-    color = 'limegreen'
-    if color == 'limegreen': change2green()
-    elif color == 'white': change2white()
-    elif color == 'darkviolet': change2violet()
-    elif color == 'red': change2red()
-    elif color == 'hotpink': change2pink()
-    elif color == 'deepskyblue': change2blue()
+fecha_sep = str(fecha).split('-')
+ano_hoy, mes_hoy, dia_hoy = fecha_sep[0], fecha_sep[1], fecha_sep[2]
 
+# ya teniendo el año:
+diocesis_url = {'Barcelona':'http://www.gcatholic.org/calendar/2022/ES-barc0-es.htm',
+                'Cuenca':f'http://www.gcatholic.org/calendar/{ano_hoy}/ES-cuen1-es.htm',
+                'Madrid':f'http://www.gcatholic.org/calendar/{ano_hoy}/ES-madr1-es.htm',
+                'Valencia':f'http://www.gcatholic.org/calendar/{ano_hoy}/ES-vale0-es.htm'}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# automáticamente saldrá la primera opción por orden alfabético
+data = get_data(diocesis_url[option])
+st.write(data[mes_hoy+dia_hoy]['fiestas']
 
