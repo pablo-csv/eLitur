@@ -92,7 +92,7 @@ def normalcolor(original):  # pasa del color exacto al general (en castellano)
 # CONFIGURACIÓN DE LA WEB
 st.set_page_config(layout="wide", page_title="eLitur")
 
-diocesis = ['Barcelona', 'Cuenca', 'Madrid', 'Valencia']
+diocesis = ['Barcelona', 'Cuenca', 'Madrid', 'Valencia', 'Santiago de Compostela']
 
 col1, col2, col3 = st.columns(3)
 with col1:
@@ -109,7 +109,9 @@ ano_hoy, mes_hoy, dia_hoy = fecha_sep[0], fecha_sep[1], fecha_sep[2]
 diocesis_url = {'Barcelona':'http://www.gcatholic.org/calendar/2022/ES-barc0-es.htm',
                 'Cuenca':f'http://www.gcatholic.org/calendar/{ano_hoy}/ES-cuen1-es.htm',
                 'Madrid':f'http://www.gcatholic.org/calendar/{ano_hoy}/ES-madr1-es.htm',
-                'Valencia':f'http://www.gcatholic.org/calendar/{ano_hoy}/ES-vale0-es.htm'}
+                'Valencia':f'http://www.gcatholic.org/calendar/{ano_hoy}/ES-vale0-es.htm',
+                'Santiago de Compostela':f'http://www.gcatholic.org/calendar/{ano_hoy}/ES-ztia0-es.htm'
+                }
 
 data = get_data(diocesis_url[option])
 cod = mes_hoy + dia_hoy
