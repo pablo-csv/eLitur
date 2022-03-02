@@ -56,7 +56,7 @@ def get_data(url):  # webscrapping
             elif color == 'feastv': color = 'darkviolet'   # morado
             elif color == 'feastr': color = 'red'          # rojo
             elif color == 'feastp': color = 'hotpink'      # rosa
-            elif color == 'feastb': color = 'deepskyblue'  # azul
+            elif color == 'feastu': color = 'deepskyblue'  # azul
             # corrección:
             if tiempo == 'Triduo Pascual' or fiesta == 'Domingo de Pascua de la Resurrección del Señor':
                 tipo = 'Solemnidad'
@@ -109,8 +109,10 @@ cod = mes_hoy + dia_hoy
 #st.write(data[mes_hoy+dia_hoy]['fiestas'])
 
 for fiesta, dic in data[cod]['fiestas'].items():
+    color = normalcolor(dic['color'])
     with st.container():
         st.subheader(dic['nombre'])
         st.write(f"{dic['tipo']}")
-        st.write(f"{data[cod]['tiempo']}, color {normalcolor(dic['color'])}")
+        st.write(f"{data[cod]['tiempo']}. Color {color}")
+        st.image(f"{color}.png", output_format="png")
 # FIN
