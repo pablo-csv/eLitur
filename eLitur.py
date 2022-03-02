@@ -100,7 +100,8 @@ with col1:
 with col2:
     option = st.selectbox('Diócesis', sorted(diocesis), index=1)  # index depende de la ciudad
 with col3:
-    fecha = st.date_input('Día', value=date.today())
+    min_date, max_date = date(2020, 1, 1), date(2027, 12, 31)  # límite webscrapping
+    fecha = st.date_input('Día', value=date.today(), min_value=min_date, max_value=max_date)
 
 fecha_sep = str(fecha).split('-')
 ano_hoy, mes_hoy, dia_hoy = fecha_sep[0], fecha_sep[1], fecha_sep[2]
@@ -125,4 +126,5 @@ for fiesta, dic in data[cod]['fiestas'].items():
         for color in colores:
             color = normalcolor(color)
             st.image(f"{color}.png", caption=color.upper(), output_format="png")
+        # aquí iría posible separación
 # FIN
