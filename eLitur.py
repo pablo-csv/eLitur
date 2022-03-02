@@ -120,4 +120,5 @@ diocesis_url = {'Barcelona':'http://www.gcatholic.org/calendar/2022/ES-barc0-es.
 
 # automáticamente saldrá la primera opción por orden alfabético
 data = get_data(diocesis_url[option])
-st.write(data[mes_hoy+dia_hoy]['fiestas']
+st.write(data[mes_hoy+dia_hoy]['fiestas'])
+# FIN
