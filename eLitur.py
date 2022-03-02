@@ -86,17 +86,6 @@ def change2green():
 # CONFIGURACIÓN DE LA WEB
 st.set_page_config(layout="wide", page_title="eLitur")
 
-st.markdown(   # imagen de fondo (no funciona en la web)
-    """
-    <style>
-    .reportview-container {
-        background: url("https://lh6.googleusercontent.com/-vZQUyXCsISw/Tm_At3p_3WI/AAAAAAAAHuY/nMyHpa3KKPY/s800/t1337_gif.jpg")
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
 st.title('eLitur')
 
 diocesis = ['Barcelona', 'Cuenca', 'Madrid', 'Valencia']
