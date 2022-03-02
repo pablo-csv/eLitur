@@ -57,7 +57,10 @@ def get_data(url):  # webscrapping
             elif color == 'feastr': color = 'red'          # rojo
             elif color == 'feastp': color = 'hotpink'      # rosa
             elif color == 'feastb': color = 'deepskyblue'  # azul
-            #print(fiesta, color, tipo)  # comentar
+            # corrección:
+            if tiempo == 'Triduo Pascual' or fiesta == 'Domingo de Pascua de la Resurrección del Señor':
+                tipo = 'Solemnidad'
+            # se añade al diccionario
             if cod not in data:
                 data[cod] = {'dia_sem':dia_sem,
                              'dia_num':dia_num,
@@ -69,7 +72,7 @@ def get_data(url):  # webscrapping
                 data[cod]['fiestas'][fiesta] = {'nombre':fiesta, 'tipo':tipo, 'color':color}
     return data
 
-def normalcolor(original):
+def normalcolor(original):  # pasa del color exacto al general
     if original == 'limegreen': nuevo = 'VERDE'
     elif original == 'white': nuevo = 'BLANCO'
     elif original == 'darkviolet': nuevo = 'MORADO'
@@ -108,6 +111,6 @@ cod = mes_hoy + dia_hoy
 for fiesta, dic in data[cod]['fiestas'].items():
     with st.container():
         st.subheader(dic['nombre'])
-        st.write(dic['tipo'])
-        st.write(normalcolor(dic['color']))
+        st.write(f"{dic['tipo']}")
+        st.write(f"{data[cod]['tiempo']}, color {normalcolor(dic['color'])}")
 # FIN
