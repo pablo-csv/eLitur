@@ -64,23 +64,19 @@ def get_data(url):  # webscrapping
                              'mes':mes,
                              'año':ano,
                              'tiempo':tiempo,
-                             'fiestas':{fiesta:{'tipo':tipo, 'color':color}}}
+                             'fiestas':{fiesta:{'nombre':fiesta, 'tipo':tipo, 'color':color}}}
             else:
-                data[cod]['fiestas'][fiesta] = {'tipo':tipo, 'color':color}
+                data[cod]['fiestas'][fiesta] = {'nombre':fiesta, 'tipo':tipo, 'color':color}
     return data
 
-# no sirve en web:
-def change2green():
-    st.markdown(
-        """
-        <style>
-        .reportview-container {
-            background: url('https://ae01.alicdn.com/kf/HTB1jQ_hKFXXXXccXXXXq6xXFXXXN/Priest-Costumes-Clothes-Male-Catholic-Church-Clergy-Chasuble-Celebrant-Green-Vestment-traje-de-padre.jpg')
-        }
-        </style>
-        """,    
-        unsafe_allow_html=True
-    )
+def normalcolor(original):
+    if original == 'limegreen': nuevo = 'VERDE'
+    elif original == 'white': nuevo = 'BLANCO'
+    elif original == 'darkviolet': nuevo = 'MORADO'
+    elif original == 'red': nuevo = 'ROJO'
+    elif original == 'hotpink': nuevo = 'ROSA'
+    elif original == 'deepskyblue': nuevo = 'AZUL'
+    return nuevo
 
 
 # CONFIGURACIÓN DE LA WEB
@@ -90,9 +86,9 @@ diocesis = ['Barcelona', 'Cuenca', 'Madrid', 'Valencia']
 
 col1, col2, col3 = st.columns(3)
 with col1:
-    st.title('eLitur')  # en PC queda mejor otra distribución
+    st.title('eLitur')  # puede que en PC quede mejor otra distribución
 with col2:
-    option = st.selectbox('Diócesis', sorted(diocesis), index=1)
+    option = st.selectbox('Diócesis', sorted(diocesis), index=1)  # index depende de la ciudad
 with col3:
     fecha = st.date_input('Día', value=date.today())
 
@@ -106,5 +102,12 @@ diocesis_url = {'Barcelona':'http://www.gcatholic.org/calendar/2022/ES-barc0-es.
                 'Valencia':f'http://www.gcatholic.org/calendar/{ano_hoy}/ES-vale0-es.htm'}
 
 data = get_data(diocesis_url[option])
-st.write(data[mes_hoy+dia_hoy]['fiestas'])
+cod = mes_hoy + dia_hoy
+#st.write(data[mes_hoy+dia_hoy]['fiestas'])
+
+for fiesta, dic in data[cod]['fiestas'].items():
+    with st.container():
+        st.subheader(dic['nombre'])
+        st.write(dic['tipo'])
+        st.write(normalcolor(dic['color']))
 # FIN
