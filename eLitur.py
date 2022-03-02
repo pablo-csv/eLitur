@@ -73,12 +73,12 @@ def get_data(url):  # webscrapping
     return data
 
 def normalcolor(original):  # pasa del color exacto al general
-    if original == 'limegreen': nuevo = 'VERDE'
-    elif original == 'white': nuevo = 'BLANCO'
-    elif original == 'darkviolet': nuevo = 'MORADO'
-    elif original == 'red': nuevo = 'ROJO'
-    elif original == 'hotpink': nuevo = 'ROSA'
-    elif original == 'deepskyblue': nuevo = 'AZUL'
+    if original == 'limegreen': nuevo = 'verde'
+    elif original == 'white': nuevo = 'blanco'
+    elif original == 'darkviolet': nuevo = 'morado'
+    elif original == 'red': nuevo = 'rojo'
+    elif original == 'hotpink': nuevo = 'rosa'
+    elif original == 'deepskyblue': nuevo = 'azul'
     return nuevo
 
 
@@ -113,6 +113,6 @@ for fiesta, dic in data[cod]['fiestas'].items():
     with st.container():
         st.subheader(dic['nombre'])
         st.write(f"{dic['tipo']}")
-        st.write(f"{data[cod]['tiempo']}. Color {color}")
+        st.write(f"{data[cod]['tiempo']}. Color {color.upper()}.")
         st.image(f"{color}.png", output_format="png")
 # FIN
