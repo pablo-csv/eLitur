@@ -86,17 +86,15 @@ def change2green():
 # CONFIGURACIÓN DE LA WEB
 st.set_page_config(layout="wide", page_title="eLitur")
 
-st.title('eLitur')
-
 diocesis = ['Barcelona', 'Cuenca', 'Madrid', 'Valencia']
 
 col1, col2, col3 = st.columns(3)
 with col1:
-    st.header('Diócesis')
+    st.title('eLitur')  # en PC queda mejor otra distribución
 with col2:
-    option = st.selectbox('', sorted(diocesis), index=1)
+    option = st.selectbox('Diócesis', sorted(diocesis), index=1)
 with col3:
-    fecha = st.date_input('', value=date.today())
+    fecha = st.date_input('Día', value=date.today())
 
 fecha_sep = str(fecha).split('-')
 ano_hoy, mes_hoy, dia_hoy = fecha_sep[0], fecha_sep[1], fecha_sep[2]
@@ -107,7 +105,6 @@ diocesis_url = {'Barcelona':'http://www.gcatholic.org/calendar/2022/ES-barc0-es.
                 'Madrid':f'http://www.gcatholic.org/calendar/{ano_hoy}/ES-madr1-es.htm',
                 'Valencia':f'http://www.gcatholic.org/calendar/{ano_hoy}/ES-vale0-es.htm'}
 
-# automáticamente saldrá la primera opción por orden alfabético
 data = get_data(diocesis_url[option])
 st.write(data[mes_hoy+dia_hoy]['fiestas'])
 # FIN
